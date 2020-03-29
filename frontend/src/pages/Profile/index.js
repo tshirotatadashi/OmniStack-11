@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { list } from '../../actions/IncidentsActions'
+import { list, deleteIncident } from '../../actions/IncidentsActions'
 import { Link } from "react-router-dom";
 import './style.css'
 import logoImg from "../../assets/logo.svg"
@@ -14,6 +14,15 @@ export default function Profile() {
       setIncidents(response)
     })
   }, [])
+
+  function handleDelete (id) {
+    deleteIncident(id)
+      .then(() => {
+        setIncidents(incidents.filter(incident => incident.id !== id))
+        alert('Incidente excluído com sucesso!')
+      })
+      .catch(() => alert('Erro ao deletar Incidente'))
+  }
 
   return (
     <div className="profile-container">
@@ -43,7 +52,7 @@ export default function Profile() {
               Intl.NumberFormat('pt-BR', {style: 'currency', currency:'BRL'}).format(value)
             }</p>
 
-            <button type="button">
+            <button type="button" onClick={() => handleDelete(id)}>
               <FiTrash2 size={20} color="#a8a8b3" />
             </button>
           </li>
