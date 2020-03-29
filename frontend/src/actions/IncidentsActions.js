@@ -1,5 +1,23 @@
 import api from "../services/api";
 
+export default function store(payload) {
+  const Authorization = localStorage.getItem('ongId')
+  return new Promise((resolve, reject) => {
+    api.post('incidents',
+    payload,
+    {
+      headers: {
+        Authorization
+      },
+    }).then(() => {
+      resolve()
+    }).catch(error => {
+      console.error(error)
+      reject()
+    })
+  })
+}
+
 export function list() {
   const Authorization = localStorage.getItem('ongId')
   const id = Authorization
