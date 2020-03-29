@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { list, deleteIncident } from '../../actions/IncidentsActions'
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import './style.css'
 import logoImg from "../../assets/logo.svg"
 import { FiPower, FiTrash2 } from "react-icons/fi"
 
 export default function Profile() {
+  const history = useHistory()
   const ongName = localStorage.getItem('ongName')
   const [incidents, setIncidents] = useState([])
 
@@ -24,6 +25,11 @@ export default function Profile() {
       .catch(() => alert('Erro ao deletar Incidente'))
   }
 
+  function handleLogOut () {
+    localStorage.clear()
+    history.push('/')
+  }
+
   return (
     <div className="profile-container">
       <header>
@@ -31,7 +37,7 @@ export default function Profile() {
         <span>Bem vinda, {ongName}</span>
 
         <Link className="button" to='/incidents/new'>Cadastrar novo Caso</Link>
-        <button type="button">
+        <button type="button" onClick={() => handleLogOut()}>
           <FiPower size={18} color="#E02041" />
         </button>
       </header>
